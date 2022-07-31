@@ -1,0 +1,6 @@
+db:
+  neo4Url: bolt://0.0.0.0:7687
+  username: neo4j
+  password : test
+
+  driver_class_name:  org.neo4j.ogm.drivers.bolt.driver.BoltDriver
