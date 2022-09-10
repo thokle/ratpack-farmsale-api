@@ -2,12 +2,12 @@ package com.kleistit.farmapi.modules;
 
 import ratpack.guice.ConfigurableModule;
 
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class KafkaConfiguarableModule extends ConfigurableModule<KafkaConfiguarableModule.Config> {
-
 
     @Override
     protected void configure() {
@@ -16,28 +16,36 @@ public class KafkaConfiguarableModule extends ConfigurableModule<KafkaConfiguara
 
     public static class Config {
 
-        private Set<String> servers;
-        private String clientId;
+        private Set<String> servers = new HashSet<>();
+
+        private String clientId = "1";
         private Long maxBlockMillis = TimeUnit.MINUTES.toMillis(1);
         private boolean enabled = true;
-        private Integer lingersMs;
-        private Integer batchSize;
-        private Integer sendBufferBytes;
-        private Integer maxInFlightRequestsPerConnection;
-        private Long bufferMemory;
-        private String acks;
+        private Integer lingersMs = 0;
+        private Integer batchSize = 200;
+        private Integer sendBufferBytes = 200;
+        private Integer maxInFlightRequestsPerConnection  = 1;
+        private Long bufferMemory = 200L;
+        private String acks ="1";
 
         public Config() {
         }
 
         public Properties getKafkaProperties() {
-
+            servers.add("127.0.0.1:9092");
             Properties props = new Properties();
-
+            props.put("buffer.memory", 1920000000);
+            props.put("message.max.bytes", 104857600);
+            props.put("max.request.size", 192000000);
+            props.put("send.buffer.bytes", 1000000);
             props.put("bootstrap.servers", String.join(",", servers));
             props.put("client.id", clientId);
             props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer" );
             props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+            props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer" );
+            props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+            props.put("group.id", "1");
+
             props.put("max.block.ms", maxBlockMillis);
             if (lingersMs != null) {
                 props.put("linger.ms", lingersMs);
@@ -142,3 +150,4 @@ public class KafkaConfiguarableModule extends ConfigurableModule<KafkaConfiguara
         }
     }
 }
+

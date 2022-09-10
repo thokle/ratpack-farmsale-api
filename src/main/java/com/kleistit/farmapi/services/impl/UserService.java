@@ -3,6 +3,7 @@ package com.kleistit.farmapi.services.impl;
 import com.kleistit.farmapi.config.AEService;
 import com.kleistit.farmapi.nodes.User;
 import io.reactivex.Single;
+
 import lombok.var;
 import org.neo4j.ogm.session.Session;
 
@@ -15,25 +16,42 @@ public class UserService implements IUserService {
     private Session session;
     private AEService aeService;
     @Inject
-    public UserService(final Session session, final  AEService service){
+    public UserService( Session session,   AEService service){
         this.session = session;
         this.aeService = service;
     }
     @Override
     public Single<User> save(User user) {
+        var encrypt = this.aeService.encrypt(user.getPassword());
+        user.setPassword(encrypt);
+
         this.session.save(user);
         return Single.just(user);
     }
 
     @Override
-    public Single<User> getByCredentials(String username, String email, String password) {
+    public Single<User> getByCredentials(String username, String password) {
         var map = new HashMap<String, Object>();
-        String statement = "MATCH (u:User) where u.username=$username and u.email=$email";
+        map.put("username", username);
+        map.put("password", password);
+        String statement = "MATCH (u:User) where u.username=$username and u.password=$password return u";
         var res = this.session.queryForObject(User.class, statement,map );
 
 
         return Single.just(res);
     }
 
+    @Override
+    public Single<Boolean> doesUserExcist(String username) {
+        var map = new HashMap<String, Object>();
+        map.put("username", username);
 
+        String statement = "MATCH (u:User) where u.username=$username return u";
+        var res = this.session.query(User.class, statement,map );
+       if(res.iterator().hasNext()){
+           return Single.just(true);
+       } else {
+           return Single.just(false);
+       }
+    }
 }

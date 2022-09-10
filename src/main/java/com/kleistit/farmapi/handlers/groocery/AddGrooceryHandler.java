@@ -3,8 +3,12 @@ package com.kleistit.farmapi.handlers.groocery;
 import com.google.inject.Inject;
 import com.kleistit.farmapi.helperEntities.SalePlaceGroocery;
 import com.kleistit.farmapi.services.impl.GrooceryService;
-import ratpack.core.handling.Context;
-import ratpack.core.handling.Handler;
+
+import lombok.var;
+import ratpack.handling.Context;
+import ratpack.handling.Handler;
+
+import static ratpack.jackson.Jackson.json;
 
 public class AddGrooceryHandler implements Handler {
 
@@ -18,7 +22,8 @@ public class AddGrooceryHandler implements Handler {
     @Override
     public void handle(Context ctx) throws Exception {
         ctx.parse(SalePlaceGroocery.class).then(salePlaceGroocery -> {
-            this.grooceryService.addGrooceryToSalePlace(salePlaceGroocery.getSalePlace(), salePlaceGroocery.getGroocery());
+           var res = this.grooceryService.addGrooceryToSalePlace(salePlaceGroocery.getSalePlace().getId(), salePlaceGroocery.getGroocery());
+           ctx.render(json(res.blockingGet()));
         });
     }
 }

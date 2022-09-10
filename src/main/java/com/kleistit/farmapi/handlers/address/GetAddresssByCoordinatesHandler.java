@@ -2,11 +2,12 @@ package com.kleistit.farmapi.handlers.address;
 
 import com.google.inject.Inject;
 import com.kleistit.farmapi.services.impl.AddressService;
-import lombok.var;
-import ratpack.core.handling.Context;
-import ratpack.core.handling.Handler;
 
-import static ratpack.core.jackson.Jackson.json;
+import lombok.var;
+import ratpack.handling.Context;
+import ratpack.handling.Handler;
+
+import static ratpack.jackson.Jackson.json;
 
 public class GetAddresssByCoordinatesHandler implements Handler {
 

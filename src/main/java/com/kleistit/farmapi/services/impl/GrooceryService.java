@@ -6,7 +6,11 @@ import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 public interface GrooceryService {
-    public Single<Groocery> addGrooceryToSalePlace(SalePlace salePlace, Groocery groocery ) throws Exception;
+    public Single<Groocery> addGrooceryToSalePlace(Long id, Groocery groocery ) throws Exception;
     public Flowable<Groocery> getGrooceryBySalePlace(SalePlace salePlace) throws Exception;
-    public Single<Groocery> soldOut(SalePlace salePlace , Groocery groocery) throws Exception;
+    public Single<Groocery> soldOut(Long id) throws Exception;
+
+    public Single<Groocery> getGrooceryById(Long id) throws  Exception;
+
+    public Flowable<Groocery> getAllSoldOut() throws  Exception;
 }

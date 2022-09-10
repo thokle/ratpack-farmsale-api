@@ -18,7 +18,7 @@ public class ConnectionSource {
 
 @Inject
     public ConnectionSource(Config config) throws  IOException {
-    sessionFactory = new SessionFactory(configuration(config),"com.kleistit.entities");
+    sessionFactory = new SessionFactory(configuration(config),"com.kleistit.farmapi.nodes");
         configuration(config);
     }
 

@@ -1,15 +1,15 @@
 package com.kleistit.farmapi.config;
 
 
-import ratpack.core.handling.Context;
-import ratpack.core.handling.Handler;
-import ratpack.core.http.MutableHeaders;
+import ratpack.handling.Context;
+import ratpack.handling.Handler;
+import ratpack.http.MutableHeaders;
 
 public class
 CORSHandler implements Handler {
 
 	public static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
-	public static final String ACCESS_CONTROL_ALLOW_HEADERS_VALUE = "x-requested-with, origin, content-type, accept, token, X-Custom-Header";
+	public static final String ACCESS_CONTROL_ALLOW_HEADERS_VALUE = "x-requested-with, Origin, content-type, accept, token, X-Custom-Header, username, password, email, streetname, postalCode";
 
 	public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 	public static final String ACCESS_CONTROL_ALLOW_ORIGIN_VALUE = "*";
@@ -26,5 +26,5 @@ CORSHandler implements Handler {
 		headers.set(ACCESS_CONTROL_ALLOW_METHODS, ACCESS_CONTROL_ALLOW_METHODS_VALUE);
 		ctx.next();
 	}
-	
+
 }

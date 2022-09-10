@@ -24,7 +24,7 @@ public class AddressServiceImpl implements  AddressService
         var map = new HashMap<String, Object>();
         map.put("username", user.getUsername());
         map.put("email", user.getEmail());
-        var res = this.session.queryForObject(User.class, "match (user:User) where user.username=$username and user.email=$email", map);
+        var res = this.session.queryForObject(User.class, "match (user:User) where user.username=$username and user.email=$email return user", map);
         res.getAddress().add(address);
         this.session.save(res);
         return Single.just(address);
@@ -41,10 +41,20 @@ public class AddressServiceImpl implements  AddressService
            var map = new HashMap<String, Object>();
            map.put("lattitude", lattitude);
            map.put("longitude", longitude);
-         return   Flowable.fromIterable(this.session.query(Address.class, "match (a:Address) where a.lattitude=$lattitude and s.longitude=$longitude", map));
+         return   Flowable.fromIterable(this.session.query(Address.class, "match (a:Address) where a.lattitude=$lattitude and s.longitude=$longitude return u", map));
        }catch (Exception e) {
            throw  new Exception(e.getCause());
        }
 
+    }
+
+
+    @Override
+    public Flowable<Address> getAddreseByUser(String username) throws Exception {
+       var map = new HashMap<String, Object>();
+       map.put("email", username);
+
+      var res =  this.session.query(Address.class, "Match (u:User)-[ru:USER_HAS_ADDRESS]->(a:Address) where u.email=$email return a",map);
+        return Flowable.fromIterable(res);
     }
 }
