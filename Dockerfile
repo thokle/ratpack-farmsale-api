@@ -1,4 +1,4 @@
-FROM java:8-jdk-alpine
+FROM openjdk:8-alpine
 
 COPY build/distributions/ratpack-farmsale-api.zip /usr/lib/farmsale/ratpack-farmsale-api.zip
 
