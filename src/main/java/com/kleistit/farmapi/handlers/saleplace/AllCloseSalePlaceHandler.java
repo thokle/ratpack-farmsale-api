@@ -19,7 +19,7 @@ public class AllCloseSalePlaceHandler implements Handler {
 
     @Override
     public void handle(Context ctx) throws Exception {
-        val salePlaceFlowable = this.salePlaceService.allOpenSalePlacess();
+        val salePlaceFlowable = this.salePlaceService.allCloseSalePlaces();
         ctx.render(json(salePlaceFlowable.blockingIterable()));
 
     }

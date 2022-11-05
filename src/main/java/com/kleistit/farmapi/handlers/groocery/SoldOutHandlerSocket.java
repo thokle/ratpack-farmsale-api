@@ -76,10 +76,10 @@ private Future<String> fromFuture(){
         Execution.fork().onComplete(e-> scheduleNext()).onError(Throwable::printStackTrace).start(execution -> {
             log.debug("run run run");
             try {
-                this.kafkaConsumer.consumerAllSoldOut().subscribe(Collections.singletonList("soldout"));
-                this.kafkaConsumer.consumerAllSoldOut().poll(Duration.ofSeconds(30)).forEach(stringGrooceryConsumerRecord -> {
-                    log.debug("consume data data data data");
-                });
+              //  this.kafkaConsumer.consumerAllSoldOut().subscribe(Collections.singletonList("soldout"));
+              //  this.kafkaConsumer.consumerAllSoldOut().poll(Duration.ofSeconds(30)).forEach(stringGrooceryConsumerRecord -> {
+              //      log.debug("consume data data data data");
+              //  });
 
             }catch (Exception e){
                 log.debug(e.getMessage());

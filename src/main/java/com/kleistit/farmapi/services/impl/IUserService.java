@@ -6,7 +6,7 @@ import io.reactivex.Single;
 public interface IUserService {
 
     public Single<User> save(User user);
-    public Single<User> getByCredentials(String username, String password);
+    public Single<User> getByCredentials(String username, String password) throws Exception;
 
     public Single<Boolean> doesUserExcist(String username);
 }

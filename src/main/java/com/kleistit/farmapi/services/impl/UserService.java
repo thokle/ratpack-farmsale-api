@@ -22,23 +22,27 @@ public class UserService implements IUserService {
     }
     @Override
     public Single<User> save(User user) {
-        var encrypt = this.aeService.encrypt(user.getPassword());
-        user.setPassword(encrypt);
+
 
         this.session.save(user);
         return Single.just(user);
     }
 
     @Override
-    public Single<User> getByCredentials(String username, String password) {
-        var map = new HashMap<String, Object>();
-        map.put("username", username);
-        map.put("password", password);
-        String statement = "MATCH (u:User) where u.username=$username and u.password=$password return u";
-        var res = this.session.queryForObject(User.class, statement,map );
+    public Single<User> getByCredentials(String username, String password) throws Exception {
+        try {
+            var map = new HashMap<String, Object>();
+            map.put("username", username);
+            var encryptetPassword = this.aeService.encrypt(password);
+            map.put("password", encryptetPassword);
+            String statement = "MATCH (u:User) where u.username=$username and u.password=$password return u";
+            var res = this.session.queryForObject(User.class, statement, map);
 
 
-        return Single.just(res);
+            return Single.just(res);
+        } catch (Exception ex) {
+            throw  new Exception(ex.getCause());
+        }
     }
 
     @Override

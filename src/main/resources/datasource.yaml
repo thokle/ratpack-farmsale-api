@@ -1,6 +1,7 @@
 db:
-  neo4Url: bolt://0.0.0.0:7687
+  neo4Url: bolt://ad-scoop.com:7687
   username: neo4j
-  password : test
+  password : 1Adscoop*
 
   driver_class_name:  org.neo4j.ogm.drivers.bolt.driver.BoltDriver
+

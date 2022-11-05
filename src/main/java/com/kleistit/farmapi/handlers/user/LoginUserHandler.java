@@ -23,7 +23,6 @@ public class LoginUserHandler implements Handler
     @Override
     public void handle(Context ctx) throws Exception {
         var username  = ctx.getRequest().getHeaders().get("username");
-        var email = ctx.getRequest().getHeaders().get("email");
         var password = ctx.getRequest().getHeaders().get("password");
      var res =    this.userService.getByCredentials(username,password);
      var user = res.blockingGet();
