@@ -28,8 +28,7 @@ public class Main {
                 .registry(Guice.registry(bindingsSpec ->
                         bindingsSpec.module(ConfigBinder.class).module(ServiceCommonConfigModule.class)
                                 .module(KafkaConfiguarableModule.class)
-                                .bind(SoldOutService.class)
-                                .bind(OpenCloseService.class).bind(SoldOutConsumerService.class)))
+                        ))
                 .handlers(chain -> chain.all(CORSHandler.class)
                         .prefix("user", UserChain.class)
                         .prefix("address", AddressChain.class)
